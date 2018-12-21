@@ -1,0 +1,49 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_go_second"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="点击进入第二页面"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#38f2c4"
+        android:gravity="center"
+        android:text="11111111111111111111111111"
+        android:textColor="#FFF"
+        android:visibility="gone" />
+
+    <com.posin.verdrawerlayout.view.VerticalDrawerLayout
+        android:id="@+id/scroll_down_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_pager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <TextView
+            android:id="@+id/text_foot"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#25cfca"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="点击或上滑打开" />
+
+
+    </com.posin.verdrawerlayout.view.VerticalDrawerLayout>
+
+
+</FrameLayout>
