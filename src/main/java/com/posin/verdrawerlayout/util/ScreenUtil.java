@@ -25,8 +25,9 @@ public class ScreenUtil {
         if (resourceId > 0) {
             result = activity.getResources().getDimensionPixelSize(resourceId);
         }
-        int screenHeight = dm.heightPixels - result;
-        return screenHeight;
+//        int screenHeight = dm.heightPixels - result;
+        return dm.heightPixels;
+//        return screenHeight;
     }
 
 

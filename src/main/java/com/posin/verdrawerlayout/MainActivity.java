@@ -1,15 +1,14 @@
 package com.posin.verdrawerlayout;
 
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.posin.verdrawerlayout.adapter.MyBaseAdapter;
+import com.posin.verdrawerlayout.util.ScreenUtil;
 import com.posin.verdrawerlayout.view.VerticalDrawerLayout;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,9 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             verticalDrawerLayout.getBackground().setAlpha(0);
         }
 
-        verticalDrawerLayout.setDrawerViewHeight(300);
-        verticalDrawerLayout.hideDrawerView();
+        verticalDrawerLayout.hideDrawerView(50);
 
+        Log.e(TAG, "getScreenHeight: " + ScreenUtil.getScreenHeight(this));
 
         tvFood.setOnClickListener(this);
         main_pager.setAdapter(new MyBaseAdapter(this));
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (verticalDrawerLayout.getCurrentStatus() ==
                         VerticalDrawerLayout.DrawerViewStatus.CLOSE) {
-//                    verticalDrawerLayout.showDrawerView(200);
+//                    verticalDrawerLayout.showDrawerView();
                     verticalDrawerLayout.scrollToOpen();
 
                 } else if (verticalDrawerLayout.getCurrentStatus() ==
