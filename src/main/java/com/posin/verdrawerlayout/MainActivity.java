@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         verticalDrawerLayout = (VerticalDrawerLayout) findViewById(R.id.scroll_down_layout);
         tvFood = (TextView) findViewById(R.id.text_foot);
         main_pager = (ViewPager) findViewById(R.id.main_pager);
@@ -33,13 +32,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             verticalDrawerLayout.getBackground().setAlpha(0);
         }
 
-        verticalDrawerLayout.hideDrawerView(50);
-
         Log.e(TAG, "getScreenHeight: " + ScreenUtil.getScreenHeight(this));
 
         tvFood.setOnClickListener(this);
         main_pager.setAdapter(new MyBaseAdapter(this));
     }
+
 
     @Override
     public void onClick(View v) {
@@ -47,16 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.text_foot:
 
                 Log.e(TAG, "getCurrentStatus: " + verticalDrawerLayout.getCurrentStatus());
-
                 if (verticalDrawerLayout.getCurrentStatus() ==
                         VerticalDrawerLayout.DrawerViewStatus.CLOSE) {
 //                    verticalDrawerLayout.showDrawerView();
                     verticalDrawerLayout.scrollToOpen();
-
                 } else if (verticalDrawerLayout.getCurrentStatus() ==
                         VerticalDrawerLayout.DrawerViewStatus.OPEN) {
                     verticalDrawerLayout.scrollToClose();
-
                 }
                 break;
             default:

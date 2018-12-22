@@ -38,9 +38,6 @@ public class VerticalDrawerLayout extends FrameLayout {
     private int contentViewHeight; //内容View高度
     private int drawerViewHeight;  //抽屉页面总布局高度
 
-    private int showHeight = 200; //底部抽屉页面显示高度,默认高度为200
-    private int closeOffsetHeight = 0; //关闭状态底部显示滑动页面高度
-
 
     public enum DrawerViewStatus {
         CLOSE,
@@ -59,7 +56,6 @@ public class VerticalDrawerLayout extends FrameLayout {
     public VerticalDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
         this.context = context;
-        Log.e(TAG, "111111111111111111111111111111");
         initData();
     }
 
@@ -76,7 +72,6 @@ public class VerticalDrawerLayout extends FrameLayout {
 
     {
         scroller = new Scroller(getContext(), null, true);
-        closeOffsetHeight = getScreenHeight();
         screenHeight = getScreenHeight();
     }
 
@@ -87,17 +82,15 @@ public class VerticalDrawerLayout extends FrameLayout {
     @Override
     public void scrollTo(int x, int y) {
         super.scrollTo(x, y);
-
-        Log.e(TAG, "scrollTo y: " + y);
         if (y == -(screenHeight - contentViewHeight)) {
             //Y轴结束坐标等于抽屉总高度时为打开状态
-            Log.e(TAG, "更改View状态: " + DrawerViewStatus.OPEN);
+            //Log.d(TAG, "更新VerticalDrawerLayout状态: " + DrawerViewStatus.OPEN);
             if (drawerViewStatus != DrawerViewStatus.OPEN) {
                 drawerViewStatus = DrawerViewStatus.OPEN;
             }
         } else if (y == -screenHeight + actionViewHeight) {
-            // //Y轴结束坐标等于屏幕高度减去操作View高度时时为关闭状态
-            Log.e(TAG, "更改View状态: " + DrawerViewStatus.CLOSE);
+            //Y轴结束坐标等于屏幕高度减去操作View高度时时为关闭状态
+            //Log.d(TAG, "更新VerticalDrawerLayout状态: " + DrawerViewStatus.CLOSE);
             if (drawerViewStatus != DrawerViewStatus.CLOSE) {
                 drawerViewStatus = DrawerViewStatus.CLOSE;
             }
@@ -118,10 +111,7 @@ public class VerticalDrawerLayout extends FrameLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-
-        Log.e(TAG, "onMeasure");
-
+        Log.d(TAG, "onMeasure");
     }
 
 
@@ -129,26 +119,24 @@ public class VerticalDrawerLayout extends FrameLayout {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
 
-        Log.e(TAG, "onLayout");
+        Log.d(TAG, "onLayout");
         if (!hasMeasureHeight) {
             contentViewHeight = contentView.getHeight();
             actionViewHeight = actionView.getHeight();
             drawerViewHeight = this.getHeight();
-            Log.e(TAG, "contentViewHeight: " + contentViewHeight);
-            Log.e(TAG, "actionViewHeight: " + actionViewHeight);
-            Log.e(TAG, "drawerViewHeight: " + drawerViewHeight);
+            Log.d(TAG, "contentViewHeight: " + contentViewHeight);
+            Log.d(TAG, "actionViewHeight: " + actionViewHeight);
+            Log.d(TAG, "drawerViewHeight: " + drawerViewHeight);
+            closeDrawerView();
             hasMeasureHeight = true;
         }
     }
-
 
     /**
      * 显示抽屉页面，没动画效果
      */
     public void showDrawerView() {
         drawerViewStatus = DrawerViewStatus.OPEN;
-        Log.e(TAG, "screenHeight - contentViewHeight: " + (screenHeight - contentViewHeight));
-
         scrollTo(0, -(screenHeight - contentViewHeight));
     }
 
@@ -156,24 +144,13 @@ public class VerticalDrawerLayout extends FrameLayout {
     /**
      * 隐藏抽屉页面，没动画效果
      */
-    public void hideDrawerView(int hideViewHeight) {
+    public void closeDrawerView() {
         drawerViewStatus = DrawerViewStatus.CLOSE;
-
-        scrollTo(0, -(screenHeight - hideViewHeight));
-//        if (actionView != null) {
-//            actionView.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Log.e(TAG, "1111actionViewHeight: " + actionViewHeight);
-//                    scrollTo(0, -(screenHeight - 50));
-//
-//                }
-//            });
-//        }
+        scrollTo(0, -(screenHeight - actionViewHeight));
     }
 
     /**
-     * 滚动布局退出
+     * 滚动布局退出抽屉页面
      */
     public void scrollToClose() {
 
@@ -182,24 +159,21 @@ public class VerticalDrawerLayout extends FrameLayout {
         }
 
         int dy = -getScrollY() - (screenHeight - actionViewHeight);
-        Log.e(TAG, "dy: " + dy);
+        Log.d(TAG, "dy: " + dy);
         if (dy == 0) {
             return;
         }
-
-
-        Log.e(TAG, "getScrollY: " + getScrollY());
         drawerViewStatus = DrawerViewStatus.SCROLLING;
         int duration = MIN_SCROLL_DURATION
                 + Math.abs((MAX_SCROLL_DURATION - MIN_SCROLL_DURATION) *
                 dy / contentViewHeight);
         scroller.startScroll(0, getScrollY(), 0, dy, duration);
-        Log.e(TAG, "duration: " + duration);
         invalidate();
+
     }
 
     /**
-     * 滚动布局开放,maxOffset之后向下滚动.
+     * 滚动布局打开抽屉页面
      */
     public void scrollToOpen() {
         if (drawerViewStatus == DrawerViewStatus.OPEN) {
@@ -207,17 +181,13 @@ public class VerticalDrawerLayout extends FrameLayout {
         }
 
         int dy = -getScrollY() - (screenHeight - contentViewHeight);
-        Log.e(TAG, "dy: " + dy);
-        Log.e(TAG, "getScrollY: " + getScrollY());
+        Log.d(TAG, "dy: " + dy);
         if (dy == 0) {
             return;
         }
-
         drawerViewStatus = DrawerViewStatus.SCROLLING;
         int duration = MIN_SCROLL_DURATION
                 + Math.abs((MAX_SCROLL_DURATION - MIN_SCROLL_DURATION) * dy / contentViewHeight);
-        Log.e(TAG, "duration: " + duration);
-
         scroller.startScroll(0, getScrollY(), 0, dy, duration);
         invalidate();
     }
@@ -227,12 +197,17 @@ public class VerticalDrawerLayout extends FrameLayout {
         if (!scroller.isFinished() && scroller.computeScrollOffset()) {
             int currY = scroller.getCurrY();
             scrollTo(0, currY);
-            if (currY == -showHeight || currY == -closeOffsetHeight) {
+//            Log.d(TAG, "currY: " + currY);
+            if ((drawerViewStatus == DrawerViewStatus.OPEN &&
+                    currY == -(screenHeight - actionViewHeight)) ||
+                    (drawerViewStatus == DrawerViewStatus.CLOSE &&
+                            currY == -(screenHeight - contentViewHeight))) {
                 scroller.abortAnimation();
             } else {
                 invalidate();
             }
         }
+
     }
 
 
