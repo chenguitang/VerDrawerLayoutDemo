@@ -23,6 +23,7 @@ public class VerticalDrawerLayout extends FrameLayout {
     private static final int MAX_SCROLL_DURATION = 400;  //滑动动画最大时间
     private static final int MIN_SCROLL_DURATION = 100;  //滑动动画最小时间
     private DrawerViewStatus drawerViewStatus = DrawerViewStatus.CLOSE;
+    private VisibleChangeListener visibleChangeListener;
 
     private View actionView;  //顶部操作操作隐藏或显示页面
     private View contentView;  //抽屉页面内容
@@ -75,11 +76,17 @@ public class VerticalDrawerLayout extends FrameLayout {
             if (drawerViewStatus != DrawerViewStatus.OPEN) {
                 drawerViewStatus = DrawerViewStatus.OPEN;
             }
+            if (visibleChangeListener != null) {
+                visibleChangeListener.visibleChange(true);
+            }
         } else if (y == -screenHeight + actionViewHeight) {
             //Y轴结束坐标等于屏幕高度减去操作View高度时时为关闭状态
             //Log.d(TAG, "更新VerticalDrawerLayout状态: " + DrawerViewStatus.CLOSE);
             if (drawerViewStatus != DrawerViewStatus.CLOSE) {
                 drawerViewStatus = DrawerViewStatus.CLOSE;
+            }
+            if (visibleChangeListener != null) {
+                visibleChangeListener.visibleChange(false);
             }
         }
     }
@@ -125,6 +132,9 @@ public class VerticalDrawerLayout extends FrameLayout {
     public void showDrawerView() {
         drawerViewStatus = DrawerViewStatus.OPEN;
         scrollTo(0, -(screenHeight - contentViewHeight));
+        if (visibleChangeListener != null) {
+            visibleChangeListener.visibleChange(true);
+        }
     }
 
 
@@ -134,6 +144,9 @@ public class VerticalDrawerLayout extends FrameLayout {
     public void closeDrawerView() {
         drawerViewStatus = DrawerViewStatus.CLOSE;
         scrollTo(0, -(screenHeight - actionViewHeight));
+        if (visibleChangeListener != null) {
+            visibleChangeListener.visibleChange(false);
+        }
     }
 
     /**
@@ -234,5 +247,21 @@ public class VerticalDrawerLayout extends FrameLayout {
             screenHeight = dm.heightPixels;
         }
         return screenHeight;
+    }
+
+    /**
+     * 状态改变回调接口
+     */
+    public interface VisibleChangeListener {
+        void visibleChange(boolean isVisible);
+    }
+
+    /**
+     * 设置监听状态改变
+     *
+     * @param visibleChangeListener 监听方法
+     */
+    public void setOnVisibleChangeListener(VisibleChangeListener visibleChangeListener) {
+        this.visibleChangeListener = visibleChangeListener;
     }
 }

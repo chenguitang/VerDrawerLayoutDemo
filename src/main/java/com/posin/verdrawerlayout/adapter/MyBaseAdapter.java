@@ -42,7 +42,7 @@ public class MyBaseAdapter extends PagerAdapter {
         textView.setText("ViewPages: " + position);
         textView.setTextSize(32);
         textView.setTextColor(Color.parseColor("#FF0000"));
-        textView.setBackgroundColor(Color.parseColor("#18b767"));
+        textView.setBackgroundColor(Color.parseColor("#FFCD43"));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
