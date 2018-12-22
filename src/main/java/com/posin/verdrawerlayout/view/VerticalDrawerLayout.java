@@ -2,13 +2,10 @@ package com.posin.verdrawerlayout.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
@@ -16,7 +13,7 @@ import android.widget.Scroller;
 
 /**
  * FileName: VerticalDrawerLayout
- * Author: Greetty
+ * Author: Administrators
  * Time: 2018/12/21 9:48
  * Desc: TODO
  */
@@ -47,26 +44,16 @@ public class VerticalDrawerLayout extends FrameLayout {
     }
 
     public VerticalDrawerLayout(Context context) {
-        super(context, null);
-        this.context = context;
-        Log.e(TAG, "00000000000000000000000000000");
-        initData();
+        this(context, null);
     }
 
     public VerticalDrawerLayout(Context context, AttributeSet attrs) {
-        super(context, attrs, 0);
-        this.context = context;
-        initData();
+        this(context, attrs, 0);
     }
 
     public VerticalDrawerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-
-        Log.e(TAG, "=================================================");
-        Log.e(TAG, "*******888***********************************");
-        Log.e(TAG, "*******888***********************************");
-        Log.e(TAG, "*******888***********************************");
         initData();
     }
 
