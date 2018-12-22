@@ -26,13 +26,13 @@
     <com.posin.verdrawerlayout.view.VerticalDrawerLayout
         android:id="@+id/scroll_down_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="600dp">
 
 
         <android.support.v4.view.ViewPager
             android:id="@+id/main_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="500dp" />
 
 
         <TextView

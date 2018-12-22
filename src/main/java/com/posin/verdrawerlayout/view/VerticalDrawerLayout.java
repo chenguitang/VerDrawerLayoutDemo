@@ -2,10 +2,13 @@ package com.posin.verdrawerlayout.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
@@ -28,7 +31,7 @@ public class VerticalDrawerLayout extends FrameLayout {
     private View contentView;  //抽屉页面内容
 
     private Context context;
-    private boolean hasMeasure = false;  // 是否已测量完毕
+    private boolean hasMeasureHeight = false;  // 是否已测量完毕
     private Scroller scroller;
     private int screenHeight = 0; //屏幕显示内容高度
     private int actionViewHeight; //顶部操作View高度
@@ -119,22 +122,23 @@ public class VerticalDrawerLayout extends FrameLayout {
 
         Log.e(TAG, "onMeasure");
 
-        contentViewHeight = contentView.getHeight();
-        actionViewHeight = actionView.getHeight();
-        drawerViewHeight = this.getHeight();
-
-        Log.e(TAG, "contentViewHeight: " + contentViewHeight);
-        Log.e(TAG, "actionViewHeight: " + actionViewHeight);
-        Log.e(TAG, "drawerViewHeight: " + drawerViewHeight);
     }
+
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
 
         Log.e(TAG, "onLayout");
-//        Log.e(TAG, "actionViewHeight: " + actionViewHeight);
-//        Log.e(TAG, "screenHeight - actionViewHeight: " + (screenHeight - actionViewHeight));
+        if (!hasMeasureHeight) {
+            contentViewHeight = contentView.getHeight();
+            actionViewHeight = actionView.getHeight();
+            drawerViewHeight = this.getHeight();
+            Log.e(TAG, "contentViewHeight: " + contentViewHeight);
+            Log.e(TAG, "actionViewHeight: " + actionViewHeight);
+            Log.e(TAG, "drawerViewHeight: " + drawerViewHeight);
+            hasMeasureHeight = true;
+        }
     }
 
 
@@ -154,7 +158,18 @@ public class VerticalDrawerLayout extends FrameLayout {
      */
     public void hideDrawerView(int hideViewHeight) {
         drawerViewStatus = DrawerViewStatus.CLOSE;
+
         scrollTo(0, -(screenHeight - hideViewHeight));
+//        if (actionView != null) {
+//            actionView.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Log.e(TAG, "1111actionViewHeight: " + actionViewHeight);
+//                    scrollTo(0, -(screenHeight - 50));
+//
+//                }
+//            });
+//        }
     }
 
     /**
