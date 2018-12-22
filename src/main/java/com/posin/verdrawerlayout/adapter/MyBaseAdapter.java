@@ -5,11 +5,14 @@ import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.posin.verdrawerlayout.R;
 
 /**
  * FileName: MyBaseAdapter
@@ -38,18 +41,34 @@ public class MyBaseAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
-        TextView textView = new TextView(context);
-        textView.setText("ViewPages: " + position);
-        textView.setTextSize(32);
-        textView.setTextColor(Color.parseColor("#FF0000"));
-        textView.setBackgroundColor(Color.parseColor("#FFCD43"));
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        if (position == 0) {
 
-        textView.setLayoutParams(layoutParams);
-        textView.setGravity(Gravity.CENTER);
-        container.addView(textView);
-        return textView;
+            View view = LayoutInflater.from(context).inflate(R.layout.layout_viewpager, null);
+            container.addView(view);
+
+        } else {
+            TextView textView = new TextView(context);
+            textView.setText("ViewPages: " + position +
+                    "\n" + "ViewPages aaaa: " + position +
+                    "\n" + "ViewPages bbbb: " + position +
+                    "\n" + "ViewPages cccc: " + position +
+                    "\n" + "ViewPages dddd: " + position +
+                    "\n" + "ViewPages eeee: " + position +
+                    "\n" + "ViewPages ffff: " + position
+            );
+            textView.setTextSize(48);
+            textView.setTextColor(Color.parseColor("#FF0000"));
+            textView.setBackgroundColor(Color.parseColor("#FFCD43"));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, 100);
+
+            textView.setLayoutParams(layoutParams);
+            textView.setGravity(Gravity.TOP);
+
+
+            container.addView(textView);
+        }
+        return container.getChildAt(position);
 
     }
 

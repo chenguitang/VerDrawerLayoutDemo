@@ -35,6 +35,8 @@ public class VerticalDrawerLayout extends FrameLayout {
     private int actionViewHeight; //顶部操作View高度
     private int contentViewHeight; //内容View高度
     private int drawerViewHeight;  //抽屉页面总布局高度
+    private int bottomOffset = 0;  //底部上移大小（如果底部有界面，需要上移底部界面UI高度）
+    private int topOffset = 0;  //底部下移大小（如果顶部有界面，需要下移顶部部界面UI高度）
 
 
     public enum DrawerViewStatus {
@@ -70,7 +72,8 @@ public class VerticalDrawerLayout extends FrameLayout {
     @Override
     public void scrollTo(int x, int y) {
         super.scrollTo(x, y);
-        if (y == -(screenHeight - contentViewHeight)) {
+        if (y == -(screenHeight - contentViewHeight -
+                bottomOffset - topOffset - actionViewHeight)) {
             //Y轴结束坐标等于抽屉总高度时为打开状态
             //Log.d(TAG, "更新VerticalDrawerLayout状态: " + DrawerViewStatus.OPEN);
             if (drawerViewStatus != DrawerViewStatus.OPEN) {
@@ -79,7 +82,7 @@ public class VerticalDrawerLayout extends FrameLayout {
             if (visibleChangeListener != null) {
                 visibleChangeListener.visibleChange(true);
             }
-        } else if (y == -screenHeight + actionViewHeight) {
+        } else if (y == -(screenHeight - actionViewHeight - bottomOffset - topOffset)) {
             //Y轴结束坐标等于屏幕高度减去操作View高度时时为关闭状态
             //Log.d(TAG, "更新VerticalDrawerLayout状态: " + DrawerViewStatus.CLOSE);
             if (drawerViewStatus != DrawerViewStatus.CLOSE) {
@@ -131,7 +134,8 @@ public class VerticalDrawerLayout extends FrameLayout {
      */
     public void showDrawerView() {
         drawerViewStatus = DrawerViewStatus.OPEN;
-        scrollTo(0, -(screenHeight - contentViewHeight));
+        scrollTo(0, -(screenHeight - contentViewHeight -
+                bottomOffset - topOffset - actionViewHeight));
         if (visibleChangeListener != null) {
             visibleChangeListener.visibleChange(true);
         }
@@ -143,7 +147,7 @@ public class VerticalDrawerLayout extends FrameLayout {
      */
     public void closeDrawerView() {
         drawerViewStatus = DrawerViewStatus.CLOSE;
-        scrollTo(0, -(screenHeight - actionViewHeight));
+        scrollTo(0, -(screenHeight - actionViewHeight - bottomOffset - topOffset));
         if (visibleChangeListener != null) {
             visibleChangeListener.visibleChange(false);
         }
@@ -158,7 +162,8 @@ public class VerticalDrawerLayout extends FrameLayout {
             return;
         }
 
-        int dy = -getScrollY() - (screenHeight - actionViewHeight);
+        int dy = -getScrollY() - (screenHeight - actionViewHeight - bottomOffset - topOffset);
+        Log.d(TAG, "getScrollY(): " + getScrollY());
         Log.d(TAG, "dy: " + dy);
         if (dy == 0) {
             return;
@@ -180,8 +185,10 @@ public class VerticalDrawerLayout extends FrameLayout {
             return;
         }
 
-        int dy = -getScrollY() - (screenHeight - contentViewHeight);
+        int dy = -getScrollY() - (screenHeight - contentViewHeight -
+                bottomOffset - topOffset - actionViewHeight);
         Log.d(TAG, "dy: " + dy);
+        Log.d(TAG, "getScrollY(): " + getScrollY());
         if (dy == 0) {
             return;
         }
@@ -199,9 +206,10 @@ public class VerticalDrawerLayout extends FrameLayout {
             scrollTo(0, currY);
 //            Log.d(TAG, "currY: " + currY);
             if ((drawerViewStatus == DrawerViewStatus.OPEN &&
-                    currY == -(screenHeight - actionViewHeight)) ||
+                    currY == -(screenHeight - actionViewHeight - bottomOffset - topOffset)) ||
                     (drawerViewStatus == DrawerViewStatus.CLOSE &&
-                            currY == -(screenHeight - contentViewHeight))) {
+                            currY == -(screenHeight - contentViewHeight -
+                                    bottomOffset - topOffset - actionViewHeight))) {
                 scroller.abortAnimation();
             } else {
                 invalidate();
@@ -247,6 +255,24 @@ public class VerticalDrawerLayout extends FrameLayout {
             screenHeight = dm.heightPixels;
         }
         return screenHeight;
+    }
+
+    /**
+     * 设置底部偏移量
+     *
+     * @param bottomOffset 底部位置上偏移量
+     */
+    public void setBottomOffset(int bottomOffset) {
+        this.bottomOffset = bottomOffset;
+    }
+
+    /**
+     * 设置底部偏移量
+     *
+     * @param topOffset 底部位置上偏移量
+     */
+    public void setTopOffset(int topOffset) {
+        this.topOffset = topOffset;
     }
 
     /**

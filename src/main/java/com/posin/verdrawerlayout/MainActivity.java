@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvFood.setOnClickListener(this);
         btn_main.setOnClickListener(this);
         verticalDrawerLayout.setOnVisibleChangeListener(this);
+        verticalDrawerLayout.setBottomOffset(50);
+//        verticalDrawerLayout.setTopOffset(50);
         main_pager.setAdapter(new MyBaseAdapter(this));
     }
 
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     verticalDrawerLayout.scrollToOpen();
                 } else if (verticalDrawerLayout.getCurrentStatus() ==
                         VerticalDrawerLayout.DrawerViewStatus.OPEN) {
+//                    verticalDrawerLayout.closeDrawerView();
                     verticalDrawerLayout.scrollToClose();
                 }
                 break;
