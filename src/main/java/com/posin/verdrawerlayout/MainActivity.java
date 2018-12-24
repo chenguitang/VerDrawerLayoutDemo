@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void visibleChange(boolean isVisible) {
         if (isVisible) {
-            tvFood.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher2));
+            tvFood.setImageDrawable(getResources().getDrawable(R.mipmap.ic_print_down));
         } else {
-            tvFood.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+            tvFood.setImageDrawable(getResources().getDrawable(R.mipmap.ic_print_up));
 //            tvFood.setBackgroundResource(R.mipmap.ic_launcher);
         }
     }

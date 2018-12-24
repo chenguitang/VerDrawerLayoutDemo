@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
 
+import com.posin.verdrawerlayout.util.DensityUtil;
+
 
 /**
  * FileName: VerticalDrawerLayout
@@ -134,8 +136,12 @@ public class VerticalDrawerLayout extends FrameLayout {
      */
     public void showDrawerView() {
         drawerViewStatus = DrawerViewStatus.OPEN;
-        scrollTo(0, -(screenHeight - contentViewHeight -
-                bottomOffset - topOffset - actionViewHeight));
+
+        int showHeight = -(screenHeight - contentViewHeight -
+                bottomOffset - topOffset - actionViewHeight);
+        Log.e(TAG, "showHeight: " + showHeight);
+
+        scrollTo(0, showHeight);
         if (visibleChangeListener != null) {
             visibleChangeListener.visibleChange(true);
         }
@@ -231,6 +237,7 @@ public class VerticalDrawerLayout extends FrameLayout {
 
     /**
      * 获取屏幕内容高度
+     * 未适配全面屏手机和POSIN设备
      *
      * @return int
      */
@@ -246,14 +253,18 @@ public class VerticalDrawerLayout extends FrameLayout {
 
         //dm.heightPixels  该方法获取的屏幕高度为去除状态栏的高度
         int screenHeight;
-        //判断当前页面是否已全屏显示（状态栏是否已隐藏）,如果已隐藏，屏幕高度加上状态栏高度
+        //判断当前页面是否已全屏显示（状态栏是否已隐藏）,如果已隐藏，屏幕高度减去状态栏高度
         if ((((Activity) getContext()).getWindow().getAttributes().flags &
                 WindowManager.LayoutParams.FLAG_FULLSCREEN) ==
                 WindowManager.LayoutParams.FLAG_FULLSCREEN) {
-            screenHeight = dm.heightPixels + result;
-        } else {
             screenHeight = dm.heightPixels;
+        } else {
+            screenHeight = dm.heightPixels - result;
         }
+        Log.d(TAG, "heightPixels: " + dm.heightPixels);
+        Log.d(TAG, "result: " + result);
+        Log.d(TAG, "screenHeight: " + screenHeight);
+
         return screenHeight;
     }
 
@@ -263,7 +274,7 @@ public class VerticalDrawerLayout extends FrameLayout {
      * @param bottomOffset 底部位置上偏移量
      */
     public void setBottomOffset(int bottomOffset) {
-        this.bottomOffset = bottomOffset;
+        this.bottomOffset = (int) DensityUtil.convertDpToPixel(context, bottomOffset);
     }
 
     /**
@@ -272,7 +283,7 @@ public class VerticalDrawerLayout extends FrameLayout {
      * @param topOffset 底部位置上偏移量
      */
     public void setTopOffset(int topOffset) {
-        this.topOffset = topOffset;
+        this.topOffset = (int) DensityUtil.convertDpToPixel(context, topOffset);
     }
 
     /**
