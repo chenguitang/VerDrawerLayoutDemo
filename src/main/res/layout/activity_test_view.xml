@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_test_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.posin.verdrawerlayout.TestViewActivity">
+
+    <com.posin.verdrawerlayout.view.LinearLayoutOne
+        android:layout_width="500dp"
+        android:background="#5fabe9"
+        android:layout_height="500dp">
+
+        <com.posin.verdrawerlayout.view.LinearLayoutTwo
+            android:layout_width="350dp"
+            android:background="#00a2ff"
+            android:layout_height="350dp">
+
+            <com.posin.verdrawerlayout.view.MyTextView
+                android:layout_width="200dp"
+                android:background="#70c198"
+                android:layout_height="200dp" />
+
+
+        </com.posin.verdrawerlayout.view.LinearLayoutTwo>
+
+
+
+    </com.posin.verdrawerlayout.view.LinearLayoutOne>
+
+
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.posin.verdrawerlayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.posin.verdrawerlayout.adapter.MyBaseAdapter;
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView tvFood;
     private ViewPager main_pager;
     private Button btn_main;
+    private TextView tv_scroll;
+    final int moveHeight = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvFood = (ImageView) findViewById(R.id.text_foot);
         main_pager = (ViewPager) findViewById(R.id.main_pager);
         btn_main = (Button) findViewById(R.id.btn_main);
+        tv_scroll = (TextView) findViewById(R.id.tv_scroll);
 
         if (verticalDrawerLayout.getBackground() != null) {
             verticalDrawerLayout.getBackground().setAlpha(0);
@@ -41,13 +46,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Log.e(TAG, "getScreenHeight: " + ScreenUtil.getScreenHeight(this));
-
         tvFood.setOnClickListener(this);
         btn_main.setOnClickListener(this);
         verticalDrawerLayout.setOnVisibleChangeListener(this);
-        verticalDrawerLayout.setBottomOffset(50);
-//        verticalDrawerLayout.setTopOffset(50);
         main_pager.setAdapter(new MyBaseAdapter(this));
+
+        tv_scroll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_scroll.scrollTo(0, moveHeight);
+            }
+        });
     }
 
 
@@ -67,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_main:
-                Toast.makeText(this, "响应主页面功能", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "响应主页面功能", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, TestViewActivity.class));
                 break;
             default:
                 break;
